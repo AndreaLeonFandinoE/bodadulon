@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+    <title>Regalos</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Playfair Display;
+            background: #E7E1D4;
+            color: #3d4634;
+            position:relative;
+        }
+
+        header {
+            padding: 55px 20px;
+            text-align: center;
+            background: #E7E1D4;
+        }
+
+        header{
+            background-image:
+                linear-gradient(
+                    rgba(0,0,0,.35),
+                    rgba(0,0,0,.35)
+                ),
+                url("fotos/J&A-85_Editada.png");
+
+            background-size:cover;
+            background-position:center;
+            background-repeat:no-repeat;
+
+            height:500px;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+
+            text-align:center;
+
+            color: #E7E1D4;
+
+            padding:20px;
+        }
+
+        header h1 {
+            margin: 0 0 18px;
+            line-height: 1.2;
+            font-size:52px;
+            margin-bottom:20px;
+            text-shadow:2px 2px 10px rgba(0,0,0,.5);
+        }
+
+        header p {
+            max-width:850px;
+            font-size:18px;
+            line-height:1.6;
+            text-shadow:1px 1px 8px rgba(0,0,0,.5);
+        }
+
+        .volver{
+            position:absolute;
+            top:25px;
+            left:25px;
+
+            text-decoration:none;
+            color:white;
+
+            background:#333103;
+            backdrop-filter:blur(8px);
+
+            padding:12px 22px;
+            border-radius:50px;
+
+            font-size:14px;
+            font-weight:bold;
+
+            border:1px solid #E7E1D4;
+
+            transition:.25s;
+        }
+
+        .volver:hover{
+            background:#333103;
+            transform:translateY(-2px);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 25px;
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(260px, 1fr)
+            );
+            gap: 24px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+            transition: transform 0.25s ease,
+                        box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            display: block;
+            object-fit: cover;
+            background: #dddddd;
+        }
+
+        .card .content {
+            padding: 24px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+
+        .card p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        button {
+            border:  1px solid #333103;
+            border-radius: 25px;
+            padding: 12px 18px;
+            background: #E7E1D4;
+            color: #333103;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease,
+                        transform 0.2s ease;
+        }
+
+        button:hover {
+            background: #E7E1D4;
+            transform: translateY(-1px);
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.55);
+            overflow-y: auto;
+        }
+
+        .box {
+            width: 100%;
+            max-width: 500px;
+            margin: 35px auto;
+            padding: 28px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            animation: aparecer 0.25s ease;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .box h2 {
+            margin-top: 0;
+            margin-bottom: 22px;
+            font-size: 28px;
+        }
+
+        .metodo-pago {
+            padding-bottom: 24px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .metodo-pago:last-of-type {
+            border-bottom: none;
+        }
+
+        .metodo-pago h3 {
+            margin: 0 0 14px;
+            color: 333103;
+            font-size: 18px;
+        }
+
+        .metodo-pago p {
+            margin: 7px 0;
+            line-height: 1.5;
+        }
+
+        .alias-input {
+            width: 100%;
+            margin: 14px 0 12px;
+            padding: 12px;
+            border: 1px solid #888888;
+            border-radius: 4px;
+            background: #fafafa;
+            color: #333103;
+            font-size: 15px;
+        }
+
+        .mensaje-copiado {
+            min-height: 20px;
+            margin-top: 10px;
+            color: #333103;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .importante {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            background: #f3eee2;
+            line-height: 1.6;
+        }
+
+        .boton-cerrar {
+            width: 100%;
+            margin-top: 14px;
+            background: #7d7d7d;
+        }
+
+        .boton-cerrar:hover {
+            background: #666666;
+        }
+
+        footer {
+            padding: 25px 20px;
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 40px 18px;
+            }
+
+            header h1 {
+                font-size: 30px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+
+            .container {
+                padding: 28px 18px;
+            }
+
+            .card img {
+                height: 200px;
+            }
+
+            .box {
+                margin: 15px auto;
+                padding: 22px;
+            }
+
+            .box h2 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width:768px){
+
+            header{
+                height:350px;
+            }
+
+            header h1{
+                font-size:34px;
+            }
+
+            header p{
+                font-size:17px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>
+            Gracias por ser parte de nuestro nuevo comienzo
+        </h1>
+
+        <p>
+            Su compañía es, sin duda, el regalo más valioso para nosotros.
+            Si desean hacernos un obsequio, les sugerimos que pueda ser a
+            través de una contribución económica, ya que nos permitirá
+            invertirlo en nuestro hogar y en los sueños que estamos
+            comenzando a construir juntos.
+        </p>
+    </header>
+
+    <main class="container">
+
+        <a href="https://withjoy.com/dugarteleon" class="volver">
+            Volver
+        </a>
+
+        <article class="card">
+            <img
+                src="fotos/WhatsApp Image 2026-07-10 at 00.15.26 (1).jpeg"
+                alt="Nuestro hogar"
+            >
+
+            <div class="content">
+                <h2>🏡 Nuestro hogar</h2>
+
+                <p>
+                    Ayúdanos a construir el hogar que soñamos.
+                </p>
+
+                <button
+                    type="button"
+                    onclick="abrirModal('Nuestro hogar')"
+                >
+                    Contribuir
+                </button>
+            </div>
+        </article>
+
+        <article class="card">
+            <img
+                src="fotos/WhatsApp Image 2026-07-10 at 00.15.26 (2).jpeg"
+                alt="Luna de miel"
+            >
+
+            <div class="content">
+                <h2>✈️ Luna de miel</h2>
+
+                <p>
+                    Un recuerdo inolvidable para comenzar esta nueva etapa.
+                </p>
+
+                <button
+                    type="button"
+                    onclick="abrirModal('Luna de miel')"
+                >
+                    Contribuir
+                </button>
+            </div>
+        </article>
+
+        <article class="card">
+            <img
+                src="fotos/WhatsApp Image 2026-07-10 at 00.15.26.jpeg"
+                alt="Donde más lo necesitemos"
+            >
+
+            <div class="content">
+                <h2>❤️ Futuro proyecto</h2>
+
+                <p>
+                    Nos permitirá seguir construyendo nuestros sueños.
+                </p>
+
+                <button
+                    type="button"
+                    onclick="abrirModal('Donde más lo necesitemos')"
+                >
+                    Contribuir
+                </button>
+            </div>
+        </article>
+
+    </main>
+
+    <div id="modal">
+
+        <div class="box">
+
+            <h2 id="titulo-modal">
+                Contribución
+            </h2>
+
+            <section class="metodo-pago">
+
+                <h3>Transferencias en Pesos (Argentina)</h3>
+
+                <p>
+                    <strong>UALA</strong>
+                </p>
+
+                <p>
+                    Titular: Javier Dugarte
+                </p>
+
+                <input
+                    id="alias-pesos"
+                    class="alias-input"
+                    type="text"
+                    value="labodadulon.pesos"
+                    readonly
+                >
+
+                <button
+                    type="button"
+                    onclick="copiarAlias(
+                        'alias-pesos',
+                        'mensaje-pesos'
+                    )"
+                >
+                    📋 Copiar alias
+                </button>
+
+                <div
+                    id="mensaje-pesos"
+                    class="mensaje-copiado"
+                ></div>
+
+            </section>
+
+            <section class="metodo-pago">
+
+                <h3>Transferencias en dólares (Argentina)</h3>
+
+                <p>
+                    <strong>UALA</strong>
+                </p>
+
+                <p>
+                    Titular: Javier Dugarte
+                </p>
+
+                <input
+                    id="alias-bsm"
+                    class="alias-input"
+                    type="text"
+                    value="labodadulon.usd"
+                    readonly
+                >
+
+                <button
+                    type="button"
+                    onclick="copiarAlias(
+                        'alias-bsm',
+                        'mensaje-bsm'
+                    )"
+                >
+                    📋 Copiar alias
+                </button>
+
+                <div
+                    id="mensaje-bsm"
+                    class="mensaje-copiado"
+                ></div>
+
+            </section>
+
+            <section class="metodo-pago">
+
+                <h3>Transferencia internacional</h3>
+
+                <p>
+                    <strong>Zelle</strong>
+                </p>
+
+                <p>
+                    Titular: Andrea León
+                </p>
+
+                <input
+                    id="alias-usd"
+                    class="alias-input"
+                    type="text"
+                    value="estefaniafandino93@gmail.com"
+                    readonly
+                >
+
+                <button
+                    type="button"
+                    onclick="copiarAlias(
+                        'alias-usd',
+                        'mensaje-usd'
+                    )"
+                >
+                    📋 Copiar correo
+                </button>
+
+                <div
+                    id="mensaje-usd"
+                    class="mensaje-copiado"
+                ></div>
+
+            </section>
+
+            <p class="importante">
+                <strong>Importante:</strong>
+                Una vez realizada la transferencia, no es necesario
+                confirmar nada más en esta página. ¡Gracias!
+            </p>
+
+            <button
+                type="button"
+                class="boton-cerrar"
+                onclick="cerrarModal()"
+            >
+                Cerrar
+            </button>
+
+        </div>
+
+    </div>
+
+    <footer>
+        Gracias por acompañarnos y ser parte de este nuevo capítulo
+        de nuestra historia.
+    </footer>
+
+    <script>
+        function abrirModal(titulo) {
+            const modal = document.getElementById("modal");
+            const tituloModal = document.getElementById(
+                "titulo-modal"
+            );
+
+            tituloModal.textContent = titulo;
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+
+            limpiarMensajes();
+        }
+
+        function cerrarModal() {
+            const modal = document.getElementById("modal");
+
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+
+            limpiarMensajes();
+        }
+
+        async function copiarAlias(idInput, idMensaje) {
+            const input = document.getElementById(idInput);
+            const mensaje = document.getElementById(idMensaje);
+            const texto = input.value;
+
+            limpiarMensajes();
+
+            try {
+                await navigator.clipboard.writeText(texto);
+
+                mensaje.textContent =
+                    "✓ Alias copiado: " + texto;
+            } catch (error) {
+                input.removeAttribute("readonly");
+                input.select();
+                input.setSelectionRange(
+                    0,
+                    input.value.length
+                );
+
+                document.execCommand("copy");
+
+                input.setAttribute("readonly", true);
+
+                mensaje.textContent =
+                    "✓ Alias copiado: " + texto;
+            }
+        }
+
+        function limpiarMensajes() {
+            const mensajes = document.querySelectorAll(
+                ".mensaje-copiado"
+            );
+
+            mensajes.forEach(function (mensaje) {
+                mensaje.textContent = "";
+            });
+        }
+
+        window.addEventListener("click", function (evento) {
+            const modal = document.getElementById("modal");
+
+            if (evento.target === modal) {
+                cerrarModal();
+            }
+        });
+
+        window.addEventListener("keydown", function (evento) {
+            if (evento.key === "Escape") {
+                cerrarModal();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
