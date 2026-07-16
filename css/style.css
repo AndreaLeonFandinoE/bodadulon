@@ -23,7 +23,7 @@ header{
             rgba(0,0,0,.35),
             rgba(0,0,0,.35)
         ),
-        url("/fotos/J&A.png");
+        url("../fotos/J&A.png");
 
     background-size:cover;
     background-position:center;
